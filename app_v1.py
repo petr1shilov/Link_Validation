@@ -10,6 +10,7 @@ import re
 
 from googletrans import Translator
 
+import nltk
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 
@@ -17,6 +18,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import subprocess
+
+nltk.download('stopwords')
 
 # @st.cache_resource
 # def download_en_core_web_sm():
