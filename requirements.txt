@@ -1,4 +1,4 @@
-python -m spacy download en_core_web_sm
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0-py3-none-any.whl
 googletrans==4.0.0rc1
 nltk==3.8.1
 scikit_learn==1.2.2
