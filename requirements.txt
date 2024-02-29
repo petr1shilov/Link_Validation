@@ -1,0 +1,5 @@
+spacy==3.7.4
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+googletrans==4.0.0rc1
+nltk==3.8.1
