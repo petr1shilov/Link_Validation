@@ -16,6 +16,14 @@ from nltk.corpus import stopwords
 import warnings
 warnings.filterwarnings("ignore")
 
+import subprocess
+
+@st.cache_resource
+def download_en_core_web_sm():
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+
+
+
 tfidf_vectorizer = TfidfVectorizer()
 translator = Translator()
 
