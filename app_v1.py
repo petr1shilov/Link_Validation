@@ -44,13 +44,14 @@ def prepare_links(link_text):
 
 
 def prework_general(text):
-    try:
-        nlp = spacy.load('en_core_web_sm')
+    # try:
+    #     nlp = spacy.load('en_core_web_sm')
     
-    except:
-        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-        nlp = spacy.load('en_core_web_sm')
-        
+    # except:
+    #     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    #     nlp = spacy.load('en_core_web_sm')
+    nlp = spacy.load('en_core_web_sm')
+
     tokenizer = RegexpTokenizer(r'[а-яА-Яa-zA-Z0-9]+\-?[а-яА-Яa-zA-Z0-9]+')
 
     tokens = [token for token in tokenizer.tokenize(text.lower())]
