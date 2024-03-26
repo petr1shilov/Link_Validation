@@ -34,11 +34,16 @@ def embeding(text_query, text_links, tresh_hold=tresh_hold):
       """
     
     list_of_candidates = {}
-
-    embeddings_query = model.encode(text_query, normalize_embeddings=False)
+    text_links.append(text_query)
+    
+    # embeddings_query = model.encode(text_query, normalize_embeddings=False)
     embeddings_links = model.encode(text_links, normalize_embeddings=False)
+    embeddings_query = embeddings_links[-1]
+    embeddings_links = embeddings_links[: -1]
 
     answer = util.cos_sim(embeddings_query, embeddings_links)[0]
+
+    text_links.pop()
 
     for i in range(len(answer)):
         if answer[i] > tresh_hold:
@@ -141,31 +146,28 @@ def main(text_query, links):
 
     text_links = embeding(text_query, text_links_prep)
 
-    response = get_token(auth)
-    if response != -1:
-        giga_token = response.json()['access_token']
+    st.write(text_links)
 
-    answer = {}
+    # response = get_token(auth)
+    # if response != -1:
+    #     giga_token = response.json()['access_token']
 
-    for i in text_links:
-        text_n = text_links[i]
-        text_for_api = f'Ответь да или нет, есть ли подтверждение текста А в тексте Б \nТекст А:\n{text_query}\nТекст Б:\n{text_n}'
-        answer_n = get_chat_completion(giga_token, text_for_api)
-        answer[i] = str(answer_n.json()['choices'][0]['message']['content'])
-        print(answer_n.json()['choices'][0]['message']['content'], text_n)
+    # answer = {}
 
-    # text_links = prepare_links(links)
+    # for i in text_links:
+    #     text_n = text_links[i]
+    #     text_for_api = f'Ответь да или нет, есть ли подтверждение текста А в тексте Б \nТекст А:\n{text_query}\nТекст Б:\n{text_n}'
+    #     answer_n = get_chat_completion(giga_token, text_for_api)
+    #     answer[i] = str(answer_n.json()['choices'][0]['message']['content'])
+    #     print(answer_n.json()['choices'][0]['message']['content'], text_n)
 
-    # st.title('Sentences from link')
-
-    # st.write(text_query)
     
-    for i in range(len(text_links_prep)):
-        st.write(f'({i}) --> {text_links_prep[i]}')
+    # for i in range(len(text_links_prep)):
+    #     st.write(f'({i}) --> {text_links_prep[i]}')
 
 
 
-    return answer, text_links_prep
+    # return answer, text_links_prep
 
 st.title('App for validation links')
 query = st.text_area('Text from article')
@@ -173,16 +175,16 @@ links = st.text_area('Text from link')
 
 if st.button('Tap to submit'):
 
-    answer, text_links = main(query, links)
+    # answer, text_links = main(query, links)
+    main(query, links)
+    # st.title('Ответы LLM для предложений-кандидатов')
 
-    st.title('Ответы LLM для предложений-кандидатов')
-    
-    for i in answer:
-        st.write(f'({i}) --> предложение-кандитат {text_links[i]}')
-        if answer[i] == 'Да':
-            st.success(f'--> ответ модели: {answer[i]}')
-        else:
-            st.error(f'--> ответ модели: {answer[i]}')
+    # for i in answer:
+    #     st.write(f'({i}) --> предложение-кандитат {text_links[i]}')
+    #     if answer[i] == 'Да':
+    #         st.success(f'--> ответ модели: {answer[i]}')
+    #     else:
+    #         st.error(f'--> ответ модели: {answer[i]}')
 
 
 
